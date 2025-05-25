@@ -46,14 +46,10 @@ Você está aqui como:
 2️⃣ Psicólogo(a)`);
     } else if (lower.includes('1')) {
         await sendTyping();
-        await msg.reply(`🧾 Formulário do Paciente:
-Por favor, acesse e preencha:
-👉 https://forms.gle/QUj3PQXymFFpxjVU6`);
+        await msg.reply('🧾 Formulário do paciente: https://forms.gle/fbd5zGHkZr6mkXer9');
     } else if (lower.includes('2')) {
         await sendTyping();
-        await msg.reply(`📄 Cadastro de Psicólogo(a):
-Para se cadastrar, acesse:
-👉 https://forms.gle/vKrzFcjW73XEu5mUA`);
+        await msg.reply('🧾 Formulário para psicólogos: https://forms.gle/xRA5gTgERvXxdiMp9');
     }
 });
 
