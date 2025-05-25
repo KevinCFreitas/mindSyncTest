@@ -84,12 +84,11 @@ client.initialize();
 app.get('/', (req, res) => {
     res.send('🧠 MindSync Bot está rodando!');
 });
-
 app.get('/qr', (req, res) => {
     if (!qrCodeDataURL) return res.send('QR Code ainda não gerado.');
-    res.send(\`<img src="\${qrCodeDataURL}" style="width:300px;height:300px;" />\`);
+    res.send(`<img src="${qrCodeDataURL}" style="width:300px;height:300px;" />`);
 });
 
 app.listen(PORT, () => {
-    console.log(\`🌐 Servidor web ouvindo na porta \${PORT}. Acesse /qr para ver o QR Code.\`);
+    console.log(`🌐 Servidor web ouvindo na porta ${PORT}. Acesse /qr para ver o QR Code.`);
 });
