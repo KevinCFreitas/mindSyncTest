@@ -4,7 +4,7 @@ const QRCode = require('qrcode');
 const { Client, LocalAuth } = require('whatsapp-web.js');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 
 let qrCodeDataURL = '';
 
@@ -46,10 +46,14 @@ Você está aqui como:
 2️⃣ Psicólogo(a)`);
     } else if (lower.includes('1')) {
         await sendTyping();
-        await msg.reply('🧾 Formulário do paciente: https://forms.gle/fbd5zGHkZr6mkXer9');
+        await msg.reply(`🧠 Clique no link abaixo para preencher o formulário de paciente e agendar sua sessão:
+
+📋 https://docs.google.com/forms/d/e/1FAIpQLSeNIEnswqelGUbLkZgmW3dwVU1X_2jtJhlN6Es5_bNtb5gV5A/viewform?usp=sf_link`);
     } else if (lower.includes('2')) {
         await sendTyping();
-        await msg.reply('🧾 Formulário para psicólogos: https://forms.gle/xRA5gTgERvXxdiMp9');
+        await msg.reply(`📄 Ótimo! Se você é psicólogo(a), acesse o link abaixo para se cadastrar na plataforma:
+
+📋 https://docs.google.com/forms/d/e/1FAIpQLSf-GDQCe-0UzPPNAzCb3-uZUOdTCULh1pHku_743Ss4AA37GQ/viewform?usp=sf_link`);
     }
 });
 
@@ -63,3 +67,4 @@ app.get('/qr', (req, res) => {
 app.listen(PORT, () => {
     console.log(`🌐 Servidor web ouvindo na porta ${PORT}. Acesse /qr para ver o QR Code.`);
 });
+
