@@ -5,19 +5,17 @@ const client = new Client({
     puppeteer: {
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     },
-    authStrategy: new LocalAuth({
-        dataPath: './session'
-    })
+    authStrategy: new LocalAuth({ dataPath: './session' })
 });
 
 client.on('qr', async qr => {
     const qrImageUrl = await QRCode.toDataURL(qr);
-    console.log('🟨 Escaneie o QR Code com o WhatsApp Web:');
+    console.log('⚠️ Escaneie este QR Code com o WhatsApp:');
     console.log(qrImageUrl);
 });
 
 client.on('ready', () => {
-    console.log('✅ Bot conectado com sucesso!');
+    console.log('✅ WhatsApp conectado com sucesso!');
 });
 
 client.initialize();
@@ -26,8 +24,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 
 client.on('message', async msg => {
     const chat = await msg.getChat();
-    const contact = await msg.getContact();
-    const nome = contact.pushname || 'amigo(a)';
+    const nome = (await msg.getContact()).pushname || 'amigo(a)';
     const lower = msg.body.toLowerCase();
 
     const sendTyping = async () => {
@@ -37,49 +34,44 @@ client.on('message', async msg => {
 
     if (['oi', 'olá', 'ola', 'menu', 'começar', 'inicio'].some(w => lower.includes(w))) {
         await sendTyping();
-        await client.sendMessage(msg.from, `🤖 Oi, ${nome}! Aqui é o assistente da MindSync. Como posso te ajudar?
+        await client.sendMessage(msg.from, `👋 Olá! Seja bem-vindo(a) à *MindSync* 🧠✨
 
-1️⃣ Agendar uma sessão
-2️⃣ Saber mais sobre os profissionais
-3️⃣ Como funciona a MindSync`);
-    } else if (lower.includes('1') || lower.includes('agendar')) {
+Aqui, conectamos você ao cuidado psicológico com empatia, acolhimento e preço acessível. 💙
+
+Antes de continuarmos, me diz uma coisa:
+Você está aqui como:
+
+1️⃣ Paciente
+2️⃣ Psicólogo(a)`);
+    } else if (lower.includes('1') || lower.includes('paciente')) {
         await sendTyping();
-        await client.sendMessage(msg.from, `📅 Vamos agendar sua sessão! Me diga:
-🗓 Dia e horário preferido
-👤 Psicólogo(a) de preferência ou se quer indicação
-💬 Formato: [Texto | Vídeo | Áudio]`);
-    } else if (lower.includes('2') || lower.includes('profissionais')) {
+        await client.sendMessage(msg.from, `📋 *Formulário do Paciente:*
+
+Por favor, responda as seguintes perguntas:
+
+🧑‍💼 Nome completo:
+📞 Número de WhatsApp:
+📅 Melhor dia e horário para atendimento:
+💬 Preferência por atendimento: Texto, Vídeo ou Áudio
+
+Digite tudo em uma única mensagem 😉`);
+    } else if (lower.includes('2') || lower.includes('psicólogo') || lower.includes('psicologa')) {
         await sendTyping();
-        await client.sendMessage(msg.from, `📘 Nossa equipe é formada por psicólogos(as) experientes, especializados(as) em:
-- Ansiedade
-- Luto
-- Relacionamentos
-- Autoconhecimento
-- Depressão
-Quer ajuda pra escolher?`);
-    } else if (lower.includes('3') || lower.includes('funciona')) {
+        await client.sendMessage(msg.from, `📋 *Formulário para Profissionais:*
+
+Envie os seguintes dados em uma única mensagem:
+
+🧑‍⚕️ Nome completo
+🆔 Número do CRP
+📄 Diploma (anexo ou link)
+📬 Comprovante de endereço (anexo ou link)
+📜 Certidão de regularidade do CRP
+🧠 Áreas de atuação / experiência
+
+Assim que analisarmos, entraremos em contato! 💙`);
+    } else if (msg.body.length > 20 && msg.body.includes(' ')) {
         await sendTyping();
-        await client.sendMessage(msg.from, `📌 A MindSync conecta você com psicólogos(as) online por apenas R$50,00 por sessão. Tudo feito com empatia, ética e segurança.`);
-    } else if (lower.includes('pix') || lower.includes('pagar') || lower.includes('valor')) {
-        await sendTyping();
-        await client.sendMessage(msg.from, `💸 O pagamento é via Pix. Cada sessão custa R$50,00 com duração de 40 minutos.
-Após o pagamento, sua sessão será confirmada.`);
-    } else if (lower.includes('sair') || lower.includes('pausar')) {
-        await sendTyping();
-        await client.sendMessage(msg.from, `⚠️ Sem problemas! Quando quiser voltar, estarei por aqui. Cuide da sua mente. 💙`);
-    } else if (lower.includes('ajuda') || lower.includes('não sei')) {
-        await sendTyping();
-        await client.sendMessage(msg.from, `🔁 Me diga o que você quer fazer:
-1️⃣ Agendar sessão
-2️⃣ Ver profissionais
-3️⃣ Entender como funciona
-Ou fale comigo com suas palavras mesmo!`);
-    } else if (lower.includes('áudio') || lower.includes('vídeo') || lower.includes('texto') || lower.includes('dia') || lower.includes('horário')) {
-        await sendTyping();
-        await client.sendMessage(msg.from, `📌 Agora só falta seu nome completo e número de WhatsApp. Me manda aqui!`);
-    } else if (msg.body.length > 10 && msg.body.includes(' ')) {
-        await sendTyping();
-        await client.sendMessage(msg.from, `✅ Tudo certo, ${nome}! Nossa equipe vai entrar em contato para confirmar sua sessão.
-Qualquer dúvida, é só me chamar.`);
+        await client.sendMessage(msg.from, `✅ Obrigado(a), ${nome}! Recebemos suas informações.
+Nosso time analisará e entrará em contato pelo WhatsApp em breve. 💬`);
     }
 });
