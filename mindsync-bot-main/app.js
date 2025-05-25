@@ -1,3 +1,4 @@
+
 const express = require('express');
 const QRCode = require('qrcode');
 const { Client, LocalAuth } = require('whatsapp-web.js');
@@ -45,20 +46,14 @@ Você está aqui como:
 2️⃣ Psicólogo(a)`);
     } else if (lower.includes('1')) {
         await sendTyping();
-        await msg.reply(`🧾 Preencha o formulário de agendamento clicando no link abaixo:
-
-📎 https://docs.google.com/forms/d/e/1FAIpQLSf-GDQCe-0UzPPNAzCb3-uZUOdTCULh1pHku_743Ss4AA37GQ/viewform?usp=header
-
-Após o envio, entraremos em contato com você via WhatsApp!`);
+        await msg.reply(`🧾 Formulário do Paciente:
+Por favor, acesse e preencha:
+👉 https://forms.gle/QUj3PQXymFFpxjVU6`);
     } else if (lower.includes('2')) {
         await sendTyping();
         await msg.reply(`📄 Cadastro de Psicólogo(a):
-
-Por favor, preencha o formulário abaixo com seus dados e documentos:
-
-📎 https://docs.google.com/forms/d/e/1FAIpQLSeNIEnswqelGUbLkZgmW3dwVU1X_2jtJhlN6Es5_bNtb5gV5A/viewform?usp=header
-
-Após o envio, nossa equipe entrará em contato com você!`);
+Para se cadastrar, acesse:
+👉 https://forms.gle/vKrzFcjW73XEu5mUA`);
     }
 });
 
@@ -66,7 +61,7 @@ client.initialize();
 
 app.get('/qr', (req, res) => {
     if (!qrCodeDataURL) return res.send('QR Code ainda não gerado.');
-    res.send(`<img src="\${qrCodeDataURL}" style="width:300px;height:300px;" />`);
+    res.send(`<img src="${qrCodeDataURL}" style="width:300px;height:300px;" />`);
 });
 
 app.listen(PORT, () => {
